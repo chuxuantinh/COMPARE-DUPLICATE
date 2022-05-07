@@ -1,0 +1,106 @@
+
+var sl =[
+      {
+        "id": "04",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id >= 20 )"
+      },
+      {
+        "id": "01",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id >= 20 )"
+      }
+    ]
+
+
+
+
+    
+      var out = [];
+
+      for (var i = 0, l = sl.length; i < l; i++) {
+        var unique = true;
+        for (var j = 0, k = out.length; j < k; j++) {
+          if ((sl[i].effect === out[j].effect) && (sl[i].condition === out[j].condition)) {
+            unique = false;
+            //console.log("Có trùng lặp");
+            //console.log("Condition", sl[j].condition);
+            
+            //console.log("effect", sl[j].effect);
+          }
+        }
+        if (unique) {
+          out.push(sl[i]);
+
+        }
+        else {
+          console.log("Có trùng lặp", sl[j].condition);
+        }
+      }
+// tinh
+
+sl = sl.filter((li, idx, self) => self.map(itm => itm.effect+itm.condition).indexOf(li.effect+li.condition) === idx)
+
+console.log(JSON.stringify(sl));
+
+//
+
+var t = new Map();
+sl.forEach( function( item ) {
+    t.set(JSON.stringify(item), item);
+});
+
+console.log( [...t.values()]);
+
+//
+
+//
+
+function uniqurArray(array){
+                         var a = array.concat();
+                        for(var i=0; i<a.length; i++) {
+                            for(var j=i+1; j<a.length; j++) {
+                                if(a[i].condition === a[j].condition){
+                                    a.splice(j--, 1);
+                                }
+                            }
+                        }
+
+                        return a;
+                    }
+
+   console.log(uniqurArray(sl));
+
+
+
+   
+// Function to merge by student name (or ID)
+const groupBy = key => array =>
+    array.reduce((objectByKeyValue, obj) => {
+        const value = obj[key];
+        objectByKeyValue[value] = (objectByKeyValue[value] || []).concat(obj);
+        return objectByKeyValue;
+    }, {});
+
+// Replace with the key name
+const rules_name = groupBy('rule') 
+// Now pass your array name here
+const grouped = rules_name(sl)
+
+// Check your answer
+console.log(grouped)
+//
+
+var newArr =[]
+for(var i in sl){
+    newArr.push(JSON.stringify(sl[i]))
+}
+var obj = {};
+newArr= newArr.filter((item)=>{
+    return obj.hasOwnProperty(item) ? false : (obj[item] = true);
+})
+sl.length = 0
+for(var i in newArr){
+    sl.push(JSON.parse(newArr[i]))
+}
+console.log(sl)
