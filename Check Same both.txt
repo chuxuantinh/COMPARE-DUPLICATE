@@ -1,0 +1,59 @@
+const l1 =  [
+      {
+        "id": "01",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      },
+      {
+        "id": "02",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 361 )"
+      }
+    ];
+
+
+const l2 =  [
+      {
+        "id": "01",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 367 )"
+      },
+      {
+        "id": "02",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      }
+    ];
+      
+function operation(l1, l2, isUnion) {
+    var result = [];
+    
+    for (var i = 0; i < l1.length; i++) {
+        var item1 = l1[i],
+            found = false;
+        for (var j = 0; j < l2.length && !found; j++) {
+            found = item1.condition === l2[j].condition && item1.effect ===l2[j].effect;
+        }
+        if (found === !!isUnion) { // isUnion is coerced to boolean
+            result.push(item1);
+        }
+    }
+    return result;
+}
+
+// Following functions are to be used:
+function inBoth(l1, l2) {
+    return operation(l1, l2, true);
+}
+
+function inFirstOnly(l1, l2) {
+    return operation(l1, l2);
+}
+
+function inSecondOnly(l1, l2) {
+    return inFirstOnly(l1, l2);
+}
+
+console.log('inBoth:', inBoth(l1, l2)); 
+console.log('inFirstOnly:', inFirstOnly(l1, l2)); 
+console.log('inSecondOnly:', inSecondOnly(l1, l2));
