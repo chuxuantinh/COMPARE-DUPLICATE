@@ -16,3 +16,10 @@ var isDuplicate = valueArr.some(function(item, idx){
     return valueArr.indexOf(item) != idx ;
 });
 console.log(isDuplicate);
+
+//
+const foundDuplicateName = values.find((nnn, index) =>{
+   return values.find((x, ind)=> x.condition === nnn.condition && index !== ind )
+    })
+    
+    console.log(foundDuplicateName.condition)
