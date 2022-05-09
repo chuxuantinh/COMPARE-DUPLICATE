@@ -142,3 +142,26 @@ const ar2 = [
 
 
 console.log("Match:",arraysEqual(ar1, ar2))
+
+// check dep in object
+
+var myObj1 = { "name":"John", "age":"45", "car":null, "friends":['anto', 'rex', 'selva'] }; 
+var myObj2 = { "name":"John", "age":"30", "car":null }; 
+for (let x in myObj1) { 
+	var flag =0; 
+	for (let y in myObj2) { 
+		if(myObj2[y] == myObj1[x]){ 
+			flag = 1; 
+			break; 
+		} 
+		else { 
+			flag = 0; 
+		} 
+	} 
+	if(flag == 1){ 
+		console.log("Matched value "+myObj1[x]); 
+	} 
+	else { 
+		console.log("None matched value "+myObj1[x]); 
+	} 
+} 
