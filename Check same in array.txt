@@ -23,3 +23,21 @@ const foundDuplicateName = values.find((nnn, index) =>{
     })
     
     console.log(foundDuplicateName.condition)
+//
+
+
+function removeDup(arrayOfObjects) {
+  if (new Set(arrayOfObjects.map((v) => v.name)).size < arrayOfObjects.length) {
+          const _set = new Set();
+          const _data = arrayOfObjects;
+          for (const i in _data) {
+            _set.add(JSON.stringify(_data[i]));
+          }
+          return Array.from(_set).map((i) =>
+            JSON.parse(i)
+          );
+        }
+}
+
+const res = removeDup(values)
+console.log(res)
