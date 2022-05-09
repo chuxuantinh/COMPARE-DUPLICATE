@@ -99,3 +99,46 @@ const arraysCompare = (a1, a2) => {
 };
 
 console.log(arraysCompare(array1, array2));
+
+//
+
+
+
+const objectsEqual = (o1, o2) => {
+  let match = false
+    if(typeof o1 === 'object' && Object.keys(o1).length > 0) {
+     match = (Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every(p => objectsEqual(o1[p], o2[p])))
+    }else {
+     match = (o1 === o2)
+    }
+ 	return match
+}
+
+const arraysEqual = (a1, a2) => {
+  let finalMatch = []
+  let itemFound = []
+  
+  if(a1.length === a2.length) {
+    finalMatch = []
+    a1.forEach( i1 => {
+      itemFound = []
+      a2.forEach( i2 => { 
+      	itemFound.push(objectsEqual(i1, i2)) 
+      })
+    	finalMatch.push(itemFound.some( i => i === true))  
+    }) 
+  } 
+  return finalMatch.every(i => i === true)
+}
+
+const ar1 = [
+  { id: 1, name: "Chu", data: { body: "Some text"}},
+  { id: 2, name: "Tinh"}
+]
+const ar2 = [
+  {name: "Tinh", id: 2},
+  {name: "Chu", data: { body: "Some text"}, id: 1}
+]
+
+
+console.log("Match:",arraysEqual(ar1, ar2))
