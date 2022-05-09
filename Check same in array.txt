@@ -41,3 +41,61 @@ function removeDup(arrayOfObjects) {
 
 const res = removeDup(values)
 console.log(res)
+
+//
+
+
+const array1 = [
+      {
+        "id": "01",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      },
+      {
+        "id": "02",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      }
+    ];
+const array2 = [
+      {
+        "id": "01",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      },
+      {
+        "id": "02",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      }
+    ];
+
+const arraysCompare = (a1, a2) => {
+  if (a1.length !== a2.length) return false;
+  const objectIteration = (object) => {
+    const result = [];
+    const objectReduce = (obj) => {
+      for (let i in obj) {
+        if (typeof obj[i] !== 'object') {
+          result.push(`${i}${obj[i]}`);
+        } else {
+          objectReduce(obj[i]);
+        }
+      }
+    };
+    objectReduce(object);
+    return result;
+  };
+  const reduceArray1 = a1.map(item => {
+    if (typeof item !== 'object') return item;
+    return objectIteration(item).join('');
+  });
+  const reduceArray2 = a2.map(item => {
+    if (typeof item !== 'object') return item;
+    return objectIteration(item).join('');
+  });
+  const compare =  reduceArray1.map(item => reduceArray2.includes(item));
+  return compare.reduce((acc, item) => acc + Number(item)) === a1.length;
+};
+
+console.log(arraysCompare(array1, array2));
