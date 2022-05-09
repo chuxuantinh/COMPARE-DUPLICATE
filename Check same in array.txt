@@ -1,0 +1,18 @@
+var values = [
+      {
+        "id": "01",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      },
+      {
+        "id": "02",
+        "effect": "Permit",
+        "condition": " ( Resource.dept_id = 36 )"
+      }
+    ];
+
+var valueArr = values.map(function(item){ return item.condition });
+var isDuplicate = valueArr.some(function(item, idx){ 
+    return valueArr.indexOf(item) != idx ;
+});
+console.log(isDuplicate);
