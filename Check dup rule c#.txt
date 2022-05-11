@@ -60,3 +60,19 @@ foreach (ARule rl in accessControlRules)
                
             }
             
+
+
+public static bool CheckforDuplicates(string[] array)
+        {
+            var duplicates = array
+             .GroupBy(p => p)
+             .Where(g => g.Count() > 1)
+             .Select(g => g.Key);
+            if (duplicates.Count() > 0)
+            {
+                Console.WriteLine("Có trùng");
+            }
+
+            return (duplicates.Count() > 0);
+
+        }
