@@ -1,40 +1,43 @@
-Console.WriteLine("Check global rule");
+// Tinh toan global
+
+            Console.WriteLine("Check global rule");
 
             //Load Policies - Compare global rule - Load policy tmp <-> policy list store
 
-            var accessControlPolicies = _accessControlPolicyRepository.GetAll();
+            var accessControlPolicies_store = _accessControlPolicyRepository.GetAll();
             //var command_store = new AccessControlPolicyViewModel();
             var result_store = new List<AccessControlPolicyViewModel>();
             //Console.WriteLine(accessControlRules);
-            foreach (var policy in accessControlPolicies)
+            foreach (var policy in accessControlPolicies_store)
             {
                 var accessControlRules_Store = new List<ARule>();
 
                 foreach (var rule in policy.Rules)
                 {
                     //var condition = _conditionalExpressionService.Parse(rule.Condition);
-                    
+
                     var accessControlRule_store = new ARule()
                     {
                         Id = rule.Id,
                         Effect = rule.Effect,
-                        
+
                         //Condition = FunctionUtility.Convert(rule.Condition)
                         Condition = rule.Condition
                     };
                     accessControlRules_Store.Add(accessControlRule_store);
                     //Console.WriteLine(accessControlRule);
                 }
-
+                Console.WriteLine(policy.PolicyId);
+                Console.WriteLine("---------------------------begin--------------------------------");
                 foreach (ARule rule_store in accessControlRules_Store)
                 {
                     Console.WriteLine(rule_store.Id);
-                    //Console.WriteLine(rule_store.Condition);
+                    ////Console.WriteLine(rule_store.Condition);
                     Console.WriteLine(FunctionUtility.Convert(rule_store.Condition));
 
                     Console.WriteLine(rule_store.Effect);
                 }
-
+                Console.WriteLine("---------------------------end--------------------------------");
 
                 //var target = _conditionalExpressionService.Parse(command.Target);
                 result_store.Add(new AccessControlPolicyViewModel()
@@ -46,17 +49,17 @@ Console.WriteLine("Check global rule");
                     IsAttributeResourceRequired = policy.IsAttributeResourceRequired,
                     RuleCombining = policy.RuleCombining,
                     //Target = target,
-                    Target = FunctionUtility.Convert2(policy.Target),
+                    Target = FunctionUtility.Convert(policy.Target),
                     //Rules = FunctionUtility.Convert(policy.<ARule>Rules)
                     //Rules = accessControlRules_Store
                 }
                 );
-                Console.WriteLine(policy.PolicyId);
-                Console.WriteLine(policy.Action);
-                Console.WriteLine(policy.CollectionName);
-                Console.WriteLine(policy.Description);
-                Console.WriteLine(policy.RuleCombining);
-                Console.WriteLine(FunctionUtility.Convert2(policy.Target));
+                //Console.WriteLine(policy.PolicyId);
+                //Console.WriteLine(policy.Action);
+                //Console.WriteLine(policy.CollectionName);
+               // Console.WriteLine(policy.Description);
+                //Console.WriteLine(policy.RuleCombining);
+                //Console.WriteLine(FunctionUtility.Convert(policy.Target));
 
                 //rules 
                 //string st_rules = System.Text.Json.JsonSerializer.Serialize(policy.Rules);
@@ -65,83 +68,145 @@ Console.WriteLine("Check global rule");
                 //if (accessControlRules[i].Condition.FunctionName == accessControlRules[j].Condition.FunctionName)
 
 
-                
-
-                    //}
 
 
-
-                    //Load policy tmp
-
-                var accessControlPolicies_tmp = _accessControlPolicyRepository.GetAlltmp();
+                //}
 
 
-                var command_tmp = new AccessControlPolicyViewModel();
 
-                var result_tmp = new List<AccessControlPolicyViewModel>();
+                //Load policy tmp
 
-                var accessControlRules_tmp = new List<ARule>();
-                //Console.WriteLine(accessControlRules);
+                //var accessControlPolicies_tmp = _accessControlPolicyRepository.GetAlltmp();
 
 
-                foreach (var policy_tmp in accessControlPolicies)
-                {
-                    //tinh add
+                //var command_tmp = new AccessControlPolicyViewModel();
 
+                //var result_tmp = new List<AccessControlPolicyViewModel>();
+
+                //var accessControlRules_tmp = new List<ARule>();
+                ////Console.WriteLine(accessControlRules);
+
+
+                //foreach (var policy_tmp in accessControlPolicies_tmp)
+                //{
+                //    //tinh add
+
+
+
+                //    foreach (var rule in policy.Rules)
+                //    {
+                //        //var condition = _conditionalExpressionService.Parse(rule.Condition);
+                //        var accessControlRule_tmp = new ARule()
+                //        {
+                //            Id = rule.Id,
+                //            Effect = rule.Effect,
+                //            //Condition = FunctionUtility.Convert(rule.Condition)
+                //            Condition = rule.Condition
+                //        };
+                //        accessControlRules_tmp.Add(accessControlRule_tmp);
+                //    }
+                //    //var target = _conditionalExpressionService.Parse(command.Target);
                     
+                //    result_tmp.Add(new AccessControlPolicyViewModel()
+                //    {
+                //        PolicyId = policy.PolicyId,
+                //        Action = policy.Action,
+                //        CollectionName = policy.CollectionName,
+                //        Description = policy.Description,
+                //        IsAttributeResourceRequired = policy.IsAttributeResourceRequired,
+                //        RuleCombining = policy.RuleCombining,
+                //        //Target = target,
+                //        Target = FunctionUtility.Convert(policy.Target),
 
-                    foreach (var rule in policy.Rules)
-                    {
-                        //var condition = _conditionalExpressionService.Parse(rule.Condition);
-                        var accessControlRule_tmp = new ARule()
-                        {
-                            Id = rule.Id,
-                            Effect = rule.Effect,
-                            //Condition = FunctionUtility.Convert(rule.Condition)
-                            Condition = rule.Condition
-                        };
-                        accessControlRules_tmp.Add(accessControlRule_tmp);
-                    }
-                    //var target = _conditionalExpressionService.Parse(command.Target);
-                    foreach (ARule rule_tmp in accessControlRules_tmp)
-                    {
-                        Console.WriteLine(rule_tmp.Id);
-                        //Console.WriteLine(rule_store.Condition);
-                        Console.WriteLine(FunctionUtility.Convert(rule_tmp.Condition));
+                //        //Rules = FunctionUtility.Convert(policy.<ARule>Rules)
 
-                        Console.WriteLine(rule_tmp.Effect);
-                    }
-                    result_tmp.Add(new AccessControlPolicyViewModel()
-                    {
-                        PolicyId = policy.PolicyId,
-                        Action = policy.Action,
-                        CollectionName = policy.CollectionName,
-                        Description = policy.Description,
-                        IsAttributeResourceRequired = policy.IsAttributeResourceRequired,
-                        RuleCombining = policy.RuleCombining,
-                        //Target = target,
-                        Target = FunctionUtility.Convert2(policy.Target),
+                //        //Rules = accessControlRules_tmp
+                //    }
+                //    );
+                //    foreach (ARule rule_tmp in accessControlRules_tmp)
+                //    {
+                //        Console.WriteLine(rule_tmp.Id);
+                //        //Console.WriteLine(rule_store.Condition);
+                //        Console.WriteLine(FunctionUtility.Convert(rule_tmp.Condition));
 
-                        //Rules = FunctionUtility.Convert(policy.<ARule>Rules)
-
-                        //Rules = accessControlRules_tmp
-                    }
-                    );
-                    
-                }
+                //        Console.WriteLine(rule_tmp.Effect);
+                //    }
+                //}
 
                 var c1g = accessControlRules_Store.Count();
-                var c2g = accessControlRules_tmp.Count();
-                if (c2g >= 1)
+                //var c2g = accessControlRules_tmp.Count();
+                var c3 = accessControlRules.Count();
+                if (c3 >= 1)
                 {
                     for (int i1 = 0; i1 < c1g; i1++)
                     {
-                        for (int j1 = 0; j1 < c2g; j1++)
+                        for (int j1 = 0; j1 < c3; j1++)
                         {
-                            if(accessControlRules_Store[i1].Condition.FunctionName == accessControlRules_tmp[j1].Condition.FunctionName)
+                            if (accessControlRules[j1].Condition.FunctionName == accessControlRules_Store[i1].Condition.FunctionName)
                             {
-                                Console.WriteLine("cùng function ");
-                            }    
+                                //Console.WriteLine("cùng function ");
+                                if (accessControlRules[j1].Condition.FunctionName == "IntegerGreaterThan")
+                                {
+                                    //Console.WriteLine(accessControlRules[i].Condition.FunctionName);
+                                    var a = accessControlRules[j1].Condition.Parameters[0].ResourceID + "." + accessControlRules[j1].Condition.Parameters[0].Value;
+                                    var b = accessControlRules[i1].Condition.Parameters[0].ResourceID + "." + accessControlRules[i1].Condition.Parameters[0].Value;
+                                    if (a != "")
+                                    {
+                                        Console.Write("Co it nhat 2 rule co trung thuoc tinh va co kha nang conflict voi => Policy khac la:");
+                                        Console.WriteLine(a);
+                                        var ai = Int32.Parse(accessControlRules[j1].Condition.Parameters[1].Value);
+                                        var aj = Int32.Parse(accessControlRules[i1].Condition.Parameters[1].Value);
+
+                                        if (ai <= aj)
+                                        {
+                                            var listai = new List<int>();
+                                            for (var k = ai; k <= aj + 1; k++)
+                                            {
+                                                listai.Add(k);
+                                                //Console.WriteLine(k);
+                                            }
+                                            var listaj = new List<int>();
+                                            for (var n = aj; n <= aj + 1; n++)
+                                            {
+                                                listaj.Add(n);
+                                                //Console.WriteLine(n);
+                                            }
+
+                                            IEnumerable<int> both = listai.Intersect(listaj);
+                                            if (both != null)
+                                            {
+                                                Console.Write(" ------Conflict rule trên value global----Kiem tra lai input value ham >=:");
+                                            }
+                                            foreach (int id in both)
+                                                Console.WriteLine(id);
+                                        }
+                                        else
+                                        {
+                                            var listaj = new List<int>();
+                                            for (var k = aj; k <= ai + 1; k++)
+                                            {
+                                                listaj.Add(k);
+                                                //Console.WriteLine(k);
+                                            }
+                                            var listai = new List<int>();
+                                            for (var n = ai; n <= ai + 1; n++)
+                                            {
+                                                listai.Add(n);
+                                                //Console.WriteLine(n);
+                                            }
+
+                                            IEnumerable<int> both = listaj.Intersect(listai);
+                                            if (both != null)
+                                            {
+                                                Console.Write("{ ------Conflict rule trên value global----Kiem tra lai input value ham >=:} ");
+                                            }
+                                            foreach (int id in both)
+                                                Console.WriteLine(id);
+                                        }
+
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -149,3 +214,77 @@ Console.WriteLine("Check global rule");
 
 
             }
+
+
+            //end 
+        }
+
+        public static int numDigits(int n)
+        {
+            if (n < 0)
+            {
+                n = (n == Int32.MinValue) ? Int32.MaxValue : -n;
+            }
+            if (n < 10) return 1;
+            if (n < 100) return 2;
+            if (n < 1000) return 3;
+            if (n < 10000) return 4;
+            if (n < 100000) return 5;
+            if (n < 1000000) return 6;
+            if (n < 10000000) return 7;
+            if (n < 100000000) return 8;
+            if (n < 1000000000) return 9;
+            return 10;
+        }
+
+        public static int[] digitArr2(int n)
+        {
+            var result = new int[numDigits(n)];
+            for (int i = result.Length - 1; i >= 0; i--)
+            {
+                result[i] = n % 10;
+                n /= 10;
+            }
+            return result;
+        }
+
+
+        public static int[] IntToArray(int value, int length)
+        {
+            char[] charArray = new char[length];
+            charArray = value.ToString().ToCharArray();
+            int[] intArray = new int[length];
+            for (int i = 0; i < intArray.Length; i++)
+            {
+                intArray[i] = charArray[i] - 48;
+            }
+
+            return intArray;
+        }
+
+        public static int[] LongToIntArray(long value, int length)
+        {
+            char[] charArray = new char[length];
+            charArray = value.ToString().ToCharArray();
+            int[] intArray = new int[length];
+            for (int i = 0; i < intArray.Length; i++)
+            {
+                intArray[i] = charArray[i] - 48;
+            }
+
+            return intArray;
+        }
+        public static bool CheckforDuplicates(string[] array)
+        {
+            var duplicates = array
+             .GroupBy(p => p)
+             .Where(g => g.Count() > 1)
+             .Select(g => g.Key);
+            if (duplicates.Count() > 0)
+            {
+                Console.WriteLine("Có trùng");
+            }
+
+            return (duplicates.Count() > 0);
+
+        }
