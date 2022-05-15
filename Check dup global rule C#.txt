@@ -1,0 +1,261 @@
+foreach (var rule in command.Rules)
+            {
+                var condition = _conditionalExpressionService.Parse(rule.Condition);
+                var accessControlRule = new ARule()
+                {
+                    Id = rule.RuleID,
+                    Effect = rule.Effect,
+                    Condition = condition
+                };
+
+                accessControlRules.Add(accessControlRule);
+
+                if (!IsResourceRequired)
+                    IsResourceRequired = rule.Condition.Contains("\"Resource.");
+            }
+
+            //Console.WriteLine();
+           
+            foreach (ARule rl in accessControlRules)
+            {
+                Console.WriteLine(rl.Id);
+                Console.WriteLine(FunctionUtility.Convert(rl.Condition));
+                // Console.WriteLine(FunctionUtility.Convert2(rl.Condition));
+
+                Console.WriteLine(rl.Effect);
+            }
+            var c1 = accessControlRules.Count();
+            int i, j;
+            Console.WriteLine(c1);
+
+            if (c1 > 1)
+            {
+                Console.WriteLine("co it nhat 2 rule");
+
+                for (i = 0; i < c1 - 1; i++)
+                {
+
+                    for (j = i + 1; j <c1; j++)
+                    {
+                        // check condition here!
+                        if (accessControlRules[i].Condition.FunctionName == accessControlRules[j].Condition.FunctionName)
+                        {
+                            //Console.WriteLine("Cùng function");
+                            if (accessControlRules[i].Condition.FunctionName == "IntegerGreaterThan")
+                            {
+                                //Console.WriteLine(accessControlRules[i].Condition.FunctionName);
+                                var a = accessControlRules[i].Condition.Parameters[0].ResourceID + "." + accessControlRules[i].Condition.Parameters[0].Value;
+                                var b = accessControlRules[j].Condition.Parameters[0].ResourceID + "." + accessControlRules[j].Condition.Parameters[0].Value;
+                                if (a != "")
+                                {
+                                    Console.Write("Co it nhat 2 rule co trung thuoc tinh va co kha nang conflict là:");
+                                    Console.WriteLine(a);
+                                    var ai = Int32.Parse(accessControlRules[i].Condition.Parameters[1].Value);
+                                    var aj = Int32.Parse(accessControlRules[j].Condition.Parameters[1].Value);
+
+                                    if (ai <= aj)
+                                    {
+                                        var listai = new List<int>();
+                                        for (var k = ai; k <= aj + 1; k++)
+                                        {
+                                            listai.Add(k);
+                                            //Console.WriteLine(k);
+                                        }
+                                        var listaj = new List<int>();
+                                        for (var n = aj; n <= aj + 1; n++)
+                                        {
+                                            listaj.Add(n);
+                                            //Console.WriteLine(n);
+                                        }
+
+                                        IEnumerable<int> both = listai.Intersect(listaj);
+                                        if (both != null)
+                                        {
+                                            Console.Write(" ------Conflict rule trên value----Kiem tra lai input value ham >=:");
+                                        }
+                                        foreach (int id in both)
+                                            Console.WriteLine(id);
+                                    }
+                                    else
+                                    {
+                                        var listaj = new List<int>();
+                                        for (var k = aj; k <= ai + 1; k++)
+                                        {
+                                            listaj.Add(k);
+                                            //Console.WriteLine(k);
+                                        }
+                                        var listai = new List<int>();
+                                        for (var n = ai; n <= ai + 1; n++)
+                                        {
+                                            listai.Add(n);
+                                            //Console.WriteLine(n);
+                                        }
+
+                                        IEnumerable<int> both = listaj.Intersect(listai);
+                                        if (both != null)
+                                        {
+                                            Console.Write("{ ------Conflict rule trên value----Kiem tra lai input value ham >=:} ");
+                                        }
+                                        foreach (int id in both)
+                                            Console.WriteLine(id);
+                                    }
+
+                                }
+                            }
+
+                            // (a[i] >=n1) && a[j] >= n2 , a>=5, a>=10
+                            // (a[i] <=n1) && a[j] <= n2 , a<=5, a<=10
+
+                            else if (accessControlRules[i].Condition.FunctionName == "IntegerLessThan")
+                            {
+                                var a = accessControlRules[i].Condition.Parameters[0].ResourceID + "." + accessControlRules[i].Condition.Parameters[0].Value;
+                                var b = accessControlRules[j].Condition.Parameters[0].ResourceID + "." + accessControlRules[j].Condition.Parameters[0].Value;
+                                if (a != "")
+                                {
+                                    Console.Write("Co it nhat 2 rule co trung thuoc tinh va co kha nang conflict là:");
+                                    Console.WriteLine(a);
+                                    var ai = Int32.Parse(accessControlRules[i].Condition.Parameters[1].Value);
+                                    var aj = Int32.Parse(accessControlRules[j].Condition.Parameters[1].Value);
+
+                                    if (ai <= aj)
+                                    {
+                                        var listai = new List<int>();
+                                        for (var k = ai - 1; k < ai; k++)
+                                        {
+                                            listai.Add(k);
+                                            //Console.WriteLine(k);
+                                        }
+                                        var listaj = new List<int>();
+                                        for (var n = ai; n <= aj; n++)
+                                        {
+                                            listaj.Add(n);
+                                            //Console.WriteLine(n);
+                                        }
+
+                                        IEnumerable<int> both = listai.Intersect(listaj);
+                                        if (both != null)
+                                        {
+                                            Console.Write(" ------Conflict rule trên value----Kiem tra lai input value ham >=:");
+                                        }
+                                        foreach (int id in both)
+                                            Console.WriteLine(id);
+                                    }
+
+                                    else
+
+                                    {
+                                        var listai = new List<int>();
+                                        for (var k = aj; k <= ai; k++)
+                                        {
+                                            listai.Add(k);
+                                            Console.WriteLine(k);
+                                        }
+                                        var listaj = new List<int>();
+                                        for (var n = aj - 1; n <=aj; n++)
+                                        {
+                                            listaj.Add(n);
+                                            Console.WriteLine(n);
+                                        }
+
+                                        IEnumerable<int> both = listai.Intersect(listaj);
+                                        if (both != null)
+                                        {
+                                            Console.Write(" ------Conflict rule trên value----Kiem tra lai input value ham >=:");
+                                        }
+                                        foreach (int id in both)
+                                            Console.WriteLine(id);
+                                    }
+
+                                }
+                            }
+
+                            else if (accessControlRules[i].Condition.FunctionName == "IntegerEqual")
+                            {
+                                var a = accessControlRules[i].Condition.Parameters[0].ResourceID + "." + accessControlRules[i].Condition.Parameters[0].Value;
+                                var b = accessControlRules[j].Condition.Parameters[0].ResourceID + "." + accessControlRules[j].Condition.Parameters[0].Value;
+                                if (a != "")
+                                {
+                                    Console.Write("Co it nhat 2 rule co trung thuoc tinh va co kha nang conflict là:");
+                                    Console.WriteLine(a);
+                                    var ai = Int32.Parse(accessControlRules[i].Condition.Parameters[1].Value);
+                                    var aj = Int32.Parse(accessControlRules[j].Condition.Parameters[1].Value);
+
+                                    if (ai == aj)
+                                    {
+                                        Console.Write("Conflict value giua 2 rule:");
+                                    }
+
+                                    else
+
+                                    {
+                                        Console.Write("No Conflict value giua 2 rule:");
+                                    }
+
+                                }
+                            }
+
+                            //Tiep
+
+                        }
+
+                        // (a[i] >= n1) && a[j] <= n2 , a>=5 Permit, a<=10 Deny (if ai <aj-> conflict, if(ai>aj-> ok, if
+
+                        else if (accessControlRules[i].Condition.FunctionName == "IntegerGreaterThan" && accessControlRules[j].Condition.FunctionName == "IntegerLessThan")
+                        {
+                            //Console.WriteLine(accessControlRules[i].Condition.FunctionName);
+                            var a = accessControlRules[i].Condition.Parameters[0].ResourceID + "." + accessControlRules[i].Condition.Parameters[0].Value;
+                            var b = accessControlRules[j].Condition.Parameters[0].ResourceID + "." + accessControlRules[j].Condition.Parameters[0].Value;
+                            if (a != "")
+                            {
+                                Console.Write("Co it nhat 2 rule co trung thuoc tinh va co kha nang conflict là:");
+                                Console.WriteLine(a);
+                                var ai = Int32.Parse(accessControlRules[i].Condition.Parameters[1].Value);
+                                var aj = Int32.Parse(accessControlRules[j].Condition.Parameters[1].Value);
+
+                                if (ai <= aj)
+                                {
+                                    Console.WriteLine("Conflict giua 2 rule");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No Conflict giua 2 rule");
+                                }
+
+                            }
+                        }
+                        // (a[i] <= n1) && a[j] >= n2 , a<=5 Permit, a>=10 Deny (if ai <aj-> conflict, if(ai>aj-> ok, if
+                        else if (accessControlRules[i].Condition.FunctionName == "IntegerLessThan" && accessControlRules[j].Condition.FunctionName == "IntegerGreaterThan")
+                        {
+                            //Console.WriteLine(accessControlRules[i].Condition.FunctionName);
+                            var a = accessControlRules[i].Condition.Parameters[0].ResourceID + "." + accessControlRules[i].Condition.Parameters[0].Value;
+                            var b = accessControlRules[j].Condition.Parameters[0].ResourceID + "." + accessControlRules[j].Condition.Parameters[0].Value;
+                            if (a != "")
+                            {
+                                Console.Write("Co it nhat 2 rule co trung thuoc tinh va co kha nang conflict là:");
+                                Console.WriteLine(a);
+                                var ai = Int32.Parse(accessControlRules[i].Condition.Parameters[1].Value);
+                                var aj = Int32.Parse(accessControlRules[j].Condition.Parameters[1].Value);
+
+                                if (ai <= aj)
+                                {
+                                    Console.WriteLine("No Conflict giua 2 rule");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Conflict giua 2 rule");
+                                }
+
+                            }
+                        }
+                        if (accessControlRules[i].Condition.ResourceID == accessControlRules[j].Condition.ResourceID)
+                        {
+                            Console.WriteLine("Cùng resource");
+                            //Console.WriteLine(accessControlRules[j].Condition.Parameters);
+                            Console.Write(accessControlRules[i].Condition.Parameters[1].ResourceID);
+                            Console.Write(".");
+                            Console.WriteLine(accessControlRules[i].Condition.Parameters[1].Value);
+                        }      
+                    }
+                }         
+            }
+            
