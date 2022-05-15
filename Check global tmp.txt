@@ -1,0 +1,151 @@
+Console.WriteLine("Check global rule");
+
+            //Load Policies - Compare global rule - Load policy tmp <-> policy list store
+
+            var accessControlPolicies = _accessControlPolicyRepository.GetAll();
+            //var command_store = new AccessControlPolicyViewModel();
+            var result_store = new List<AccessControlPolicyViewModel>();
+            //Console.WriteLine(accessControlRules);
+            foreach (var policy in accessControlPolicies)
+            {
+                var accessControlRules_Store = new List<ARule>();
+
+                foreach (var rule in policy.Rules)
+                {
+                    //var condition = _conditionalExpressionService.Parse(rule.Condition);
+                    
+                    var accessControlRule_store = new ARule()
+                    {
+                        Id = rule.Id,
+                        Effect = rule.Effect,
+                        
+                        //Condition = FunctionUtility.Convert(rule.Condition)
+                        Condition = rule.Condition
+                    };
+                    accessControlRules_Store.Add(accessControlRule_store);
+                    //Console.WriteLine(accessControlRule);
+                }
+
+                foreach (ARule rule_store in accessControlRules_Store)
+                {
+                    Console.WriteLine(rule_store.Id);
+                    //Console.WriteLine(rule_store.Condition);
+                    Console.WriteLine(FunctionUtility.Convert(rule_store.Condition));
+
+                    Console.WriteLine(rule_store.Effect);
+                }
+
+
+                //var target = _conditionalExpressionService.Parse(command.Target);
+                result_store.Add(new AccessControlPolicyViewModel()
+                {
+                    PolicyId = policy.PolicyId,
+                    Action = policy.Action,
+                    CollectionName = policy.CollectionName,
+                    Description = policy.Description,
+                    IsAttributeResourceRequired = policy.IsAttributeResourceRequired,
+                    RuleCombining = policy.RuleCombining,
+                    //Target = target,
+                    Target = FunctionUtility.Convert2(policy.Target),
+                    //Rules = FunctionUtility.Convert(policy.<ARule>Rules)
+                    //Rules = accessControlRules_Store
+                }
+                );
+                Console.WriteLine(policy.PolicyId);
+                Console.WriteLine(policy.Action);
+                Console.WriteLine(policy.CollectionName);
+                Console.WriteLine(policy.Description);
+                Console.WriteLine(policy.RuleCombining);
+                Console.WriteLine(FunctionUtility.Convert2(policy.Target));
+
+                //rules 
+                //string st_rules = System.Text.Json.JsonSerializer.Serialize(policy.Rules);
+                //Console.WriteLine(st_rules);
+                //End rules
+                //if (accessControlRules[i].Condition.FunctionName == accessControlRules[j].Condition.FunctionName)
+
+
+                
+
+                    //}
+
+
+
+                    //Load policy tmp
+
+                var accessControlPolicies_tmp = _accessControlPolicyRepository.GetAlltmp();
+
+
+                var command_tmp = new AccessControlPolicyViewModel();
+
+                var result_tmp = new List<AccessControlPolicyViewModel>();
+
+                var accessControlRules_tmp = new List<ARule>();
+                //Console.WriteLine(accessControlRules);
+
+
+                foreach (var policy_tmp in accessControlPolicies)
+                {
+                    //tinh add
+
+                    
+
+                    foreach (var rule in policy.Rules)
+                    {
+                        //var condition = _conditionalExpressionService.Parse(rule.Condition);
+                        var accessControlRule_tmp = new ARule()
+                        {
+                            Id = rule.Id,
+                            Effect = rule.Effect,
+                            //Condition = FunctionUtility.Convert(rule.Condition)
+                            Condition = rule.Condition
+                        };
+                        accessControlRules_tmp.Add(accessControlRule_tmp);
+                    }
+                    //var target = _conditionalExpressionService.Parse(command.Target);
+                    foreach (ARule rule_tmp in accessControlRules_tmp)
+                    {
+                        Console.WriteLine(rule_tmp.Id);
+                        //Console.WriteLine(rule_store.Condition);
+                        Console.WriteLine(FunctionUtility.Convert(rule_tmp.Condition));
+
+                        Console.WriteLine(rule_tmp.Effect);
+                    }
+                    result_tmp.Add(new AccessControlPolicyViewModel()
+                    {
+                        PolicyId = policy.PolicyId,
+                        Action = policy.Action,
+                        CollectionName = policy.CollectionName,
+                        Description = policy.Description,
+                        IsAttributeResourceRequired = policy.IsAttributeResourceRequired,
+                        RuleCombining = policy.RuleCombining,
+                        //Target = target,
+                        Target = FunctionUtility.Convert2(policy.Target),
+
+                        //Rules = FunctionUtility.Convert(policy.<ARule>Rules)
+
+                        //Rules = accessControlRules_tmp
+                    }
+                    );
+                    
+                }
+
+                var c1g = accessControlRules_Store.Count();
+                var c2g = accessControlRules_tmp.Count();
+                if (c2g >= 1)
+                {
+                    for (int i1 = 0; i1 < c1g; i1++)
+                    {
+                        for (int j1 = 0; j1 < c2g; j1++)
+                        {
+                            if(accessControlRules_Store[i1].Condition.FunctionName == accessControlRules_tmp[j1].Condition.FunctionName)
+                            {
+                                Console.WriteLine("cùng function ");
+                            }    
+                        }
+                    }
+                }
+
+
+
+            }
